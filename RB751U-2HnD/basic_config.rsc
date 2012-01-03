@@ -27,6 +27,7 @@
 :local wlanFrequency "2412";
 :local wlanSSID "MySSID";
 :local wlanKey "MySecretKey";
+:local wlanInterface "wlan1";
 
 # DHCP - Automatically set if package is installed
 :local dhcpEnabled 0;
@@ -44,7 +45,6 @@
 :local ether3Interface "ether3-slave-local";
 :local ether4Interface "ether4-slave-local";
 :local ether5Interface "ether5-slave-local";
-:local wlanInterface "wlan1";
 
 #-------------------------------------------------------------------------------
 #
@@ -88,9 +88,10 @@
 # Set up the wireless interface
 :log info "Setting wireless LAN interface and security.";
 :if ( $wirelessEnabled = 1 ) do={
-  :execute "/interface wireless reset-configuration [/interface wireless find]";
-  :execute "/interface wireless security-profiles remove [find name!=default]";
-  :execute "/";
+  /interface wireless reset-configuration [/interface wireless find];
+  /interface wireless security-profiles remove [find name!=default];
+  /interface wireless security-profiles add name="soho" mode=dynamic-keys authentication-types=wpa-psk,wpa2-psk group-ciphers=aes-ccm wpa-pre-shared-key="$wlanKey" wpa2-pre-shared-key="$wlanKey";
+  /interface wireless set $wlanInterface band=2ghz-b/g/n disabled=no frequency=$wlanFrequency mode=ap-bridge security-profile=soho ssid=$wlanSSID country=no_country_set hide-ssid=no ht-txchains=0,1 ht-rxchains=0,1 wireless-protocol=any;
 }
 
 
