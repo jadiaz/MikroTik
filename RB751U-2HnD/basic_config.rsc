@@ -175,6 +175,9 @@
 # Disable Discover Interfaces
 /ip neighbors discovery disable [find];
 
+# Enable firewall filter on bridged ports
+/interface bridge settings set use-ip-firewall=yes;
+
 #
 :log info "Router configuration completed.";
 :put "";
