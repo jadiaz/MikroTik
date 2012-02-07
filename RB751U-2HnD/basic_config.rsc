@@ -138,7 +138,7 @@
   :log info "Setting DHCP server on bridge interface, pool $poolStart-$poolEnd";
   /ip pool add name="local-dhcp-pool" ranges="$poolStart-$poolEnd";
   /ip dhcp-server add name="dhcp-server" address-pool="local-dhcp-pool" interface=bridge-local disabled=no;
-  /ip dhcp-server network add address=$lanNetworkAddress/$lanNetworkBits gateway=$lanAddress dns-server=$lanAddress comment="DHCP for local network";
+  /ip dhcp-server network add address="$lanNetworkAddress/$lanNetworkBits" gateway=$lanAddress dns-server=$lanAddress comment="DHCP for local network";
 }
 
 #
