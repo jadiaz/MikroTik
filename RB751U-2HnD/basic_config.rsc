@@ -46,6 +46,9 @@
 :local ether4Interface "ether4-slave-local";
 :local ether5Interface "ether5-slave-local";
 
+# Timezone
+:local timeZone "America/Chicago";
+
 #-------------------------------------------------------------------------------
 #
 # Apply configuration.
@@ -76,6 +79,9 @@
   :log info "Wireless package found. Enabling wireless on router.";
 	:set wirelessEnabled 1;
 }
+
+:log info "Setting timezone.";
+/system clock set time-zone=$timeZone;
 
 :log info "Setting up the time server client.";
 /system ntp client set enabled=yes mode=unicast primary-ntp=$ntpA secondary-ntp=$ntpB;
@@ -152,6 +158,20 @@
   /ip dhcp-server add name="dhcp-server" address-pool="local-dhcp-pool" interface=bridge-local disabled=no;
   /ip dhcp-server network add address="$lanNetworkAddress/$lanNetworkBits" gateway=$lanAddress dns-server=$lanAddress comment="DHCP for local network";
 }
+
+#-------------------------------------------------------------------------------
+#
+# Firewall
+#
+#-------------------------------------------------------------------------------
+
+:log info "Adding $lanNetworkAddress/$lanNetworkBits to local address list.";
+/ip firewall address-list add address="$lanNetworkAddress/$lanNetworkBits" comment="LAN" disabled=no list=local;
+
+# Set up NAT
+:log info "NATing to interface $ether1Interface";
+/ip firewall nat add action=masquerade chain=srcnat comment="NAT" disabled=no out-interface="$ether1Interface";
+
 
 #
 :log info "Router configuration completed.";
