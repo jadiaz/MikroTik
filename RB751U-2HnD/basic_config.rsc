@@ -172,6 +172,8 @@
 :log info "NATing to interface $ether1Interface";
 /ip firewall nat add action=masquerade chain=srcnat comment="NAT" disabled=no out-interface="$ether1Interface";
 
+# Disable Discover Interfaces
+/ip neighbors discovery disable [find];
 
 #
 :log info "Router configuration completed.";
