@@ -118,7 +118,7 @@
 
 :if ( $dhcpEnabled = 1 ) do={
   :log info "Setting up a dhcp client on the gateway interface";
-  /ip dhcp-client add interface=$ether1Interface disabled=no comment="Gateway interface. Connect to ISP Modem";
+  /ip dhcp-client add interface=$ether1Interface disabled=no comment="Gateway interface. Connect to ISP Modem" use-peer-dns=no use-peer-ntp=no add-default-route=no;
 }
 
 /interface ethernet {
