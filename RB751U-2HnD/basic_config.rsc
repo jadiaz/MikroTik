@@ -31,11 +31,11 @@
 
 # DHCP - Automatically set if package is installed
 :local dhcpEnabled 0;
-:local poolStart "192.168.88.11";
-:local poolEnd "192.168.88.254";
+:local poolStart "192.168.89.11";
+:local poolEnd "192.168.89.254";
 
-:local lanAddress "192.168.88.1";
-:local lanNetworkAddress "192.168.88.0";
+:local lanAddress "192.168.89.1";
+:local lanNetworkAddress "192.168.89.0";
 :local lanNetworkBits "24";
 
 
@@ -54,6 +54,18 @@
 #-------------------------------------------------------------------------------
 
 /system logging action set memory memory-lines=500
+
+# Clearing out pre-existing settings
+/ip dhcp-client remove [find];
+/interface bridge remove [find];
+/interface bridge port remove [find];
+/ip address remove [find];
+/ip dhcp-server remove [find];
+/ip pool remove [find];
+/ip dhcp-server network remove [find];
+/ip firewall address-list remove [find];
+/ip firewall nat remove [find];
+/ip firewall filter remove [find];
 
 # Check for the required packages
 :if ([:len [/system package find name="dhcp" !disabled]] != 0) do={
