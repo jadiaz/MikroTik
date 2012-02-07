@@ -129,7 +129,7 @@
 #-------------------------------------------------------------------------------
 
 :log info "Setting LAN address to $lanAddress/$lanNetworkBits on the bridge interface.";
-/ip address add address=$lanAddress/$lanNetworkBits interface=bridge-local comment="";
+/ip address add address="$lanAddress/$lanNetworkBits" interface=bridge-local comment="";
 
 :log info "Setting DNS servers to $nsA and $nsB.";
 /ip dns set allow-remote-requests=yes servers="$nsA,$nsB";
@@ -141,3 +141,8 @@
   /ip dhcp-server network add address=$lanNetworkAddress/$lanNetworkBits gateway=$lanAddress dns-server=$lanAddress comment="DHCP for local network";
 }
 
+#
+:log info "Router configuration completed.";
+:put "";
+:put "Router configuration completed. Please check the system log.";
+:put "";
