@@ -166,7 +166,7 @@
 #-------------------------------------------------------------------------------
 
 :log info "Adding $lanNetworkAddress/$lanNetworkBits to local address list.";
-/ip firewall address-list add address="$lanNetworkAddress/$lanNetworkBits" comment="LAN" disabled=no list=local;
+/ip firewall address-list add address="$lanNetworkAddress/$lanNetworkBits" comment="LAN" disabled=no list=local-addr;
 
 # Set up NAT
 :log info "NATing to interface $ether1Interface";
