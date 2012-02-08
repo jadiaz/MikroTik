@@ -165,9 +165,6 @@
 #
 #-------------------------------------------------------------------------------
 
-:log info "Adding $lanNetworkAddress/$lanNetworkBits to local address list.";
-/ip firewall address-list add address="$lanNetworkAddress/$lanNetworkBits" comment="LAN" disabled=no list=local-addr;
-
 # Set up NAT
 :log info "NATing to interface $ether1Interface";
 /ip firewall nat add action=masquerade chain=srcnat comment="NAT" disabled=no out-interface="$ether1Interface";
@@ -183,3 +180,5 @@
 :put "";
 :put "Router configuration completed. Please check the system log.";
 :put "";
+
+/system reboot;
