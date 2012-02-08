@@ -175,6 +175,9 @@
 # Enable firewall filter on bridged ports
 /interface bridge settings set use-ip-firewall=yes;
 
+# Disable bandwidth test server
+/tool bandwidth-server set enabled=no;
+
 #
 :log info "Router configuration completed.";
 :put "";
