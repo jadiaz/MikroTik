@@ -52,12 +52,13 @@ add action=jump chain=input comment="Allow router services on the lan" disabled=
 add action=jump chain=input comment="Allow router services on the wan" disabled=yes in-interface=ether1-gateway jump-target=router-services-wan
 add action=log chain=input disabled=yes log-prefix=Logging
 add action=jump chain=input comment=Drop disabled=no dst-address-type=!local jump-target=drop
+add action=jump chain=forward comment="Check connection state" disabled=no jump-target=detect-connection-state
 add action=jump chain=forward comment="Check for invalid addresses" disabled=no jump-target=detect-invalid-address
 add action=jump chain=forward comment="Allow web traffic" disabled=no jump-target=web
 add action=jump chain=forward comment="Allow email" disabled=no jump-target=email
 add action=jump chain=forward comment="allow messaging" disabled=no jump-target=messaging
 add action=jump chain=forward comment="allow clients" disabled=no jump-target=clients
-add action=log chain=forward disabled=yes log-prefix=Logging
+add action=log chain=forward disabled=no log-prefix=Logging
 add action=drop chain=drop comment="FINAL DROP -- ALL --" disabled=no
 add action=accept chain=detect-connection-state comment="Established connections" connection-state=established disabled=no
 add action=accept chain=detect-connection-state comment="Related connections" connection-state=related disabled=no
@@ -108,7 +109,6 @@ add action=accept chain=messaging comment="Allow Skype" disabled=no protocol=udp
 add action=accept chain=messaging comment="Allow Google+ Hangout" disabled=no dst-port=19302-19305 protocol=udp src-address-list=local-addr
 add action=accept chain=clients comment="Allow Dropbox" disabled=no dst-port=17500 protocol=tcp src-address-list=local-addr
 add action=accept chain=clients disabled=no dst-port=17500 protocol=udp src-address-list=local-addr
-
 
 :log info "Finished applying filters to firewall.";
 :put "";
