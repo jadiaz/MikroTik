@@ -216,4 +216,6 @@
     :log info "Auto configuration ended.";
     :put "";
     :put "Auto configuration ended. Please check the system log.";
+
+    /system reboot;
 }
