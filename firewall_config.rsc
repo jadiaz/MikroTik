@@ -4,8 +4,9 @@
     # Firewall Configuration
     #
     #-------------------------------------------------------------------------------
+    :log info "--- Starting firewall configuration ---";
 
-    :local lanNetworkAddress "x.x.x.x"
+    :local lanNetworkAddress ""
     :local lanNetworkBits "24"
 
     :log info "--- Clearing all pre-existing settings ---";
@@ -64,7 +65,7 @@
         add action=fasttrack-connection chain=forward connection-state=established,related
         add chain=forward connection-state=established,related
         add action=drop chain=forward connection-state=invalid comment="Drop invalid connections"
-        add action=drop chain=forward connection-nat-state=!dstnat connection-state=new in-interface=ether1-gateway "Drop connections that are not originating on LAN"
+        add action=drop chain=forward connection-nat-state=!dstnat connection-state=new in-interface=ether1-gateway comment="Drop connections that are not originating on LAN"
         add action=jump chain=forward comment="Check for infected computers" jump-target=detect-virus
         add action=jump chain=forward comment="Allow gaming services" jump-target=gaming
         add action=jump chain=forward comment="Allow web traffic" jump-target=web
@@ -72,8 +73,6 @@
         add action=jump chain=forward comment="Allow outgoing VPN connections" jump-target=vpn
         add action=jump chain=forward comment="Allow development" jump-target=developer-services
         add action=jump chain=forward comment="Allow messaging" jump-target=messaging
-        add action=jump chain=forward comment="Allow video streaming services" jump-target=streaming
-        add action=jump chain=forward comment="Allow general electronics access" disabled=yes jump-target=electronics
         add action=log chain=forward log-prefix="[ No Match ]"
         add action=drop chain=drop log-prefix="[ Final Drop ]"
         add action=jump chain=detect-dns-recursion comment="Deny requests for DNS from internet" dst-port=53 jump-target=drop protocol=tcp
@@ -197,4 +196,5 @@
         add chain=gaming comment="Allow Starcraft - Blizzard Downloader" dst-port=4000 protocol=tcp src-address-list=local-addr
         add chain=gaming comment="Allow Starcraft - Blizzard Downloader" dst-port=6112-6114 protocol=tcp src-address-list=local-addr
     }
+    :log info "--- Finished configuring firewall ---";
 }
