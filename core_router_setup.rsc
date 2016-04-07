@@ -6,10 +6,10 @@
     #
     #-------------------------------------------------------------------------------
     # Set the name of the router
-    :local systemName "MyRouter"
+    :local systemName ""
 
     # Secure your RouterOS! Set the password you would like to use when logging on as 'admin'.
-    :local adminPassword "test"
+    :local adminPassword ""
 
     # Time Servers (NTP)
     :local ntpA "173.230.149.23"
@@ -21,13 +21,13 @@
     :local nsC "68.111.16.30"
 
     # DHCP - Automatically set if package is installed
-    :local dhcpServer "dhcp-server"
+    :local dhcpServer ""
     :local lanPoolName ""
-    :local poolStart "192.168.50.1"
-    :local poolEnd "192.168.50.100"
+    :local poolStart "192.168.10.100"
+    :local poolEnd "192.168.10.150"
 
-    :local lanAddress "192.168.50.1"
-    :local lanNetworkAddress "192.168.50.0"
+    :local lanAddress "192.168.10.1"
+    :local lanNetworkAddress "192.168.10.0"
     :local lanNetworkBits "24"
 
     # Interfaces
@@ -157,7 +157,10 @@
     /ip dhcp-server network add address="$lanNetworkAddress/$lanNetworkBits" gateway=$lanAddress dns-server=$lanAddress comment="local DHCP network";
 
     :log info "--- Setting DNS servers to $nsA and $nsB ---";
-    /ip dns set allow-remote-requests=yes servers="$nsA,$nsB,$nsC";
+    /ip dns {
+      set allow-remote-requests=yes servers="$nsA,$nsB,$nsC";
+      static add name=$systemName address=$lanAddress;
+    }
 
 
     #-------------------------------------------------------------------------------
